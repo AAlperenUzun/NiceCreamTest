@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour, IGeneralUpgradeManager
 {
-    public event Action<GeneralUpgradeType, float> Upgraded;
-    
     public Dictionary<GeneralUpgradeType, Upgrade>  OwnedEquipments;
     private void Start()
     {
         InitializeUpgrades();
 
-        float totalMultiplier = CalculateTotalMultiplier(GeneralUpgradeType.AllMultiplier);
-        Debug.Log($"Total Multiplier for Stand1: {totalMultiplier}");
+        // float totalMultiplier = CalculateTotalMultiplier(GeneralUpgradeType.AllMultiplier);
+        // Debug.Log($"Total Multiplier for Stand1: {totalMultiplier}");
     }
 
     void InitializeUpgrades()
@@ -27,12 +25,10 @@ public class EquipmentManager : MonoBehaviour, IGeneralUpgradeManager
 
     public void AddUpgrade( Upgrade upgrade)
     {
-        if (!OwnedEquipments.ContainsKey(upgrade.generalType))
+        if (OwnedEquipments == null)
             OwnedEquipments = new Dictionary<GeneralUpgradeType, Upgrade>();
 
         OwnedEquipments[upgrade.generalType] = upgrade;
-        
-        Upgraded?.Invoke(upgrade.generalType, CalculateTotalMultiplier(upgrade.generalType));
     }
 
     public float CalculateTotalMultiplier(GeneralUpgradeType _gUpgradeType)
@@ -47,7 +43,6 @@ public class EquipmentManager : MonoBehaviour, IGeneralUpgradeManager
 
         return multiplier;
     }
-
 
     public float GetValue(GeneralUpgradeType generalUpgradeType, float value)
     {
