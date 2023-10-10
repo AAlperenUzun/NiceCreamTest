@@ -17,7 +17,6 @@ public class Stand : MonoBehaviour
     
     public string standName = "DefaultProduct";
     public float basePrice = 10.0f;
-    [HideInInspector]
     public float baseCreationTime = 5.0f;
     [HideInInspector]
     private float tempCurrentTime;
@@ -49,6 +48,7 @@ public class Stand : MonoBehaviour
         var time= UpgradeSystem.Instance.GetValue(GeneralUpgradeType.AllStandSpeedUp, 1);
          time*= UpgradeSystem.Instance.GetValue(UpgradeType.StandSpeedUp, _standType, 1);
          currentCreationTime = baseCreationTime/time;
+         Debug.LogError("Creation time is:" + currentCreationTime);
     }
 
     private void Making()
@@ -69,6 +69,7 @@ public class Stand : MonoBehaviour
         var price= UpgradeSystem.Instance.GetValue(GeneralUpgradeType.AllMultiplier, 1);
         price*= UpgradeSystem.Instance.GetValue(UpgradeType.StandMultiplier, _standType, 1);
         currentPrice = basePrice * price;
+        Debug.LogError("Price is:" + currentPrice);
         tempProduct.SetValues(standName, currentPrice);
         currentCashier.TakeFood(tempProduct);
         currentCashier = null;
