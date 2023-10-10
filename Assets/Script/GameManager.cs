@@ -16,9 +16,15 @@ public class GameManager : MonoBehaviour
     public List<OrderPoint> orderPoints;
     public List<OrderPoint> orderList=new List<OrderPoint>();
     public List<Stand> products;
+    private UpgradeManager _upgradeManager;
 
     private void Start()
     {
+        _upgradeManager = GetComponent<UpgradeManager>();
+        foreach (var product in products)
+        {
+            product.Init(_upgradeManager);
+        }
         CreateCustomer();
         CreateCashier();
     }

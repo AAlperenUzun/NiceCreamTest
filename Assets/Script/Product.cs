@@ -6,12 +6,14 @@ using UnityEngine;
 public class Product : MonoBehaviour
 {
     public string productName = "DefaultProduct";
-    public float basePrice = 10.0f;
     [HideInInspector]
     public float currentPrice;
-    public float baseCreationTime = 5.0f;
-    [HideInInspector]
-    public float currentCreationTime;
+
+    public void SetValues(string name, float price)
+    {
+        productName = name;
+        currentPrice = price;
+    }
 
 }
 
