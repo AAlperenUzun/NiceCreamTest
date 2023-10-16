@@ -10,76 +10,35 @@ public class Stand : MonoBehaviour
 
     private bool isMaking = false;
 
-    private Cashier currentCashier;
     public Product productPrefab;
-    private UpgradeManager _upgradeManager;
     
     
     public string standName = "DefaultProduct";
     public float basePrice = 10.0f;
     public float baseCreationTime = 5.0f;
-    [HideInInspector]
-    private float tempCurrentTime;
     public StandType _standType;
-    private float currentCreationTime;
-    private float currentPrice;
+    public float currentCreationTime { get; private set; }
+    public float currentPrice{ get; private set; }
+    
 
-    private void Start()
+    public void UpdateValues()
     {
-        productPrefab.currentPrice = basePrice;
-    }
-
-    private void SetStand()
-    {
-        
-    }
-
-    public void Init(UpgradeManager upgradeManager)
-    {
-        _upgradeManager = upgradeManager;
-    }
-
-    public void StartMake(Cashier cashier)
-    {
-        currentCashier = cashier;
-        tempCurrentTime = 0;
-        isMaking = true;
-        
         var time= UpgradeSystem.Instance.GetValue(GeneralUpgradeType.AllStandSpeedUp, 1);
-         time*= UpgradeSystem.Instance.GetValue(UpgradeType.StandSpeedUp, _standType, 1);
-         currentCreationTime = baseCreationTime/time;
-         Debug.LogError("Creation time is:" + currentCreationTime);
-    }
-
-    private void Making()
-    {
-        tempCurrentTime += Time.deltaTime;
-      
-        if (tempCurrentTime>currentCreationTime)
-        {
-            Made();
-        }
-    }
-
-    private void Made()
-    {
-        isAvailable = true;
-        isMaking = false;
-        var tempProduct = Instantiate(productPrefab, currentCashier.handT);
+        time*= UpgradeSystem.Instance.GetValue(UpgradeType.StandSpeedUp, _standType, 1);
+        currentCreationTime = baseCreationTime/time;
+        // Debug.LogError("Creation time is:" + currentCreationTime);
         var price= UpgradeSystem.Instance.GetValue(GeneralUpgradeType.AllMultiplier, 1);
         price*= UpgradeSystem.Instance.GetValue(UpgradeType.StandMultiplier, _standType, 1);
         currentPrice = basePrice * price;
-        Debug.LogError("Price is:" + currentPrice);
-        tempProduct.SetValues(standName, currentPrice);
-        currentCashier.TakeFood(tempProduct);
-        currentCashier = null;
+        // Debug.LogError("Price is:" + currentPrice);
     }
-
-    private void Update()
+    public Product Made()
     {
-        if (isMaking)
-        {
-            Making();
-        }
+        isAvailable = true;
+        isMaking = false;
+        UpdateValues();
+        var tempProduct = Instantiate(productPrefab);
+        tempProduct.SetValues(standName, currentPrice);
+        return tempProduct;
     }
 }

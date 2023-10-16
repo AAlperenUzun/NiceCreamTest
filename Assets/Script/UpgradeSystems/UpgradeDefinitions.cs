@@ -30,6 +30,13 @@ public enum BodyType
     Body,
     Pet
 }
+public enum RarityType
+{
+    Common,
+    Rare,
+    Epic,
+    Legendary
+}
 public class Upgrade
 {
     public UpgradeType Type;

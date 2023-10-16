@@ -9,9 +9,6 @@ public class EquipmentManager : MonoBehaviour, IGeneralUpgradeManager
     private void Start()
     {
         InitializeUpgrades();
-
-        // float totalMultiplier = CalculateTotalMultiplier(GeneralUpgradeType.AllMultiplier);
-        // Debug.Log($"Total Multiplier for Stand1: {totalMultiplier}");
     }
 
     void InitializeUpgrades()

@@ -9,9 +9,6 @@ public class UpgradeManager :MonoBehaviour, IObjectUpgradeManager
     private void Start()
     {
         InitializeUpgrades();
-
-        // float totalMultiplierForStand1 = CalculateTotalMultiplierForStand(StandType.Stand1, UpgradeType.StandMultiplier);
-        // Debug.Log($"Total Multiplier for Stand1: {totalMultiplierForStand1}");
     }
     void InitializeUpgrades()
     {

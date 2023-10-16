@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,15 +17,10 @@ public class GameManager : MonoBehaviour
     public List<OrderPoint> orderPoints;
     public List<OrderPoint> orderList=new List<OrderPoint>();
     public List<Stand> products;
-    private UpgradeManager _upgradeManager;
-
+    [NonSerialized] public Camera camera;
     private void Start()
     {
-        _upgradeManager = GetComponent<UpgradeManager>();
-        foreach (var product in products)
-        {
-            product.Init(_upgradeManager);
-        }
+        camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         CreateCustomer();
         CreateCashier();
     }
@@ -62,7 +58,7 @@ public class GameManager : MonoBehaviour
     {
         if (customers.Count>0)
         {
-            foreach (var customer in customers)
+            foreach (var customer in customers.Where(customer => customer))
             {
                 customer.SetState();
             }

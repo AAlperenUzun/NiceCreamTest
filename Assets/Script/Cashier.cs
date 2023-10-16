@@ -14,12 +14,15 @@ public class Cashier : MonoBehaviour
     [NonSerialized] public State currentState;
     private GameManager _gameManager;
     public float takeOrderTime = 1f;
+    private float currentOrderingTime;
+    private float currentCreationTime;
     public Transform handT;
     public Image image;
 
     public void Init(GameManager gameManager)
     {
         _gameManager = gameManager;
+        image.transform.parent.LookAt(gameManager.camera.transform);
     }
 
     public void SetState()
@@ -40,10 +43,13 @@ public class Cashier : MonoBehaviour
                 {
                     currentState = State.TakingOrder;
                     _gameManager.orderList.Add(orderPoint);
-                    StartCoroutine(TakeOrder(1f));
+                    currentOrderingTime = 0;
+                    image.fillAmount = 0;
+                    image.transform.parent.gameObject.SetActive(true);
                 }
                 break;
             case State.TakingOrder:
+                TakingOrder();
                 break;
             case State.GoingStand:
                 if (orderPoint.wantedProduct.isAvailable)
@@ -53,11 +59,15 @@ public class Cashier : MonoBehaviour
                     {
                         currentState = State.MakingOrder;
                         orderPoint.wantedProduct.isAvailable = false;
-                        orderPoint.wantedProduct.StartMake(this);
+                        orderPoint.wantedProduct.UpdateValues();
+                        image.fillAmount = 0;
+                        image.transform.parent.gameObject.SetActive(true);
+                        currentCreationTime = 0;
                     }
                 }
                 break;
             case State.MakingOrder:
+                MakingOrder();
                 break;
             case State.GoingToDeliver:
                 Move(orderPoint.cashierP.position);
@@ -79,17 +89,30 @@ public class Cashier : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position,goal, speed*Time.deltaTime);
     }
-
-    IEnumerator TakeOrder(float delay)
+    private void TakingOrder()
     {
-        yield return new WaitForSeconds(delay);
-        orderPoint.wantedProduct=_gameManager.products[UnityEngine.Random.Range(0, 2)];
-        ChangeState(State.GoingStand);
+        currentOrderingTime += Time.deltaTime;
+        image.fillAmount = currentOrderingTime / takeOrderTime;
+        if (currentOrderingTime>=takeOrderTime)
+        {
+            orderPoint.wantedProduct=_gameManager.products[UnityEngine.Random.Range(0, 2)];
+            ChangeState(State.GoingStand);
+            image.transform.parent.gameObject.SetActive(false);
+        }
     }
 
-    public void TakeFood(Product product)
+    private void MakingOrder()
     {
-        ChangeState(State.GoingToDeliver);
+        currentCreationTime += Time.deltaTime;
+        image.fillAmount = currentCreationTime / orderPoint.wantedProduct.currentCreationTime;
+        if (orderPoint.wantedProduct.currentCreationTime<=currentCreationTime)
+        {
+            var product = orderPoint.wantedProduct.Made();
+            product.transform.parent = handT;
+            product.transform.localPosition = Vector3.zero;
+            ChangeState(State.GoingToDeliver);
+            image.transform.parent.gameObject.SetActive(false);
+        }
     }
     private void ChangeState(State targetState)
     {
