@@ -9,6 +9,7 @@ public class Customer : MonoBehaviour
     public enum State{GoingQueue, WaitToOrder, Ordering, WaitForOrder, TakeOrder, GoingToExit}
 
     public float speed=3f;
+    public Transform orderUi;
 
     [NonSerialized] public State currentState;
     
@@ -41,12 +42,15 @@ public class Customer : MonoBehaviour
                 if (orderPoint.wantedProduct)
                 {
                     currentState = State.WaitForOrder;
+                
+                    SetOrderUi(true);
                 }
                 break;
             case State.WaitForOrder:
                 if (!orderPoint.wantedProduct)
                 {
                     currentState = State.GoingToExit;
+                    SetOrderUi(false);
                 }
                 break;
             case State.TakeOrder:
@@ -63,5 +67,10 @@ public class Customer : MonoBehaviour
     private void Move(Vector3 goal)
     {
         transform.position = Vector3.MoveTowards(transform.position,goal, speed*Time.deltaTime);
+    }
+
+    private void SetOrderUi(bool isActive)
+    {
+        orderUi.gameObject.SetActive(isActive);
     }
 }
