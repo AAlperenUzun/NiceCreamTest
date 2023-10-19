@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     public List<OrderPoint> orderList=new List<OrderPoint>();
     public List<Stand> products;
     [NonSerialized] public Camera camera;
+    public LayerMask interactableLayer;
+    private Stand currentStand;
     private void Start()
     {
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -56,17 +59,66 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (customers.Count>0)
+        if (customers.Count > 0)
         {
             foreach (var customer in customers.Where(customer => customer))
             {
                 customer.SetState();
             }
         }
-        
+
         foreach (var cashier in cashiers)
         {
             cashier.SetState();
         }
+        
+        
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                CheckRaycast(touch.position);
+            }
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckRaycast(Input.mousePosition);
+        }
+    }
+    
+    void CheckRaycast(Vector3 position)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(position);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, interactableLayer))
+        {
+            if (hit.transform.TryGetComponent(out Stand stand))
+            {
+                if (currentStand && currentStand !=stand)
+                {
+                    currentStand.SetUpgradeUI(false);
+                }
+                currentStand = stand;
+                stand.SetUpgradeUI(true);
+            }
+        }else if (currentStand)
+        {
+            if (IsPointerOverUI(position))return;
+            currentStand.SetUpgradeUI(false);
+            currentStand = null;
+        }
+    }
+    bool IsPointerOverUI(Vector2 screenPosition)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = screenPosition;
+    
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        return results.Count > 0;
     }
 }

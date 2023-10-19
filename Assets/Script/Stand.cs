@@ -19,6 +19,8 @@ public class Stand : MonoBehaviour
     public StandType _standType;
     public float currentCreationTime { get; private set; }
     public float currentPrice{ get; private set; }
+
+    public Transform upgradeUi;
     
 
     public void UpdateValues()
@@ -40,5 +42,10 @@ public class Stand : MonoBehaviour
         var tempProduct = Instantiate(productPrefab);
         tempProduct.SetValues(standName, currentPrice);
         return tempProduct;
+    }
+
+    public void SetUpgradeUI(bool isActive)
+    {
+        upgradeUi.gameObject.SetActive(isActive);
     }
 }
