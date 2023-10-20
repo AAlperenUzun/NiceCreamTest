@@ -16,12 +16,25 @@ public class Stand : MonoBehaviour
     public string standName = "DefaultProduct";
     public float basePrice = 10.0f;
     public float baseCreationTime = 5.0f;
+    public int baseUpgradePrice=9;
     public StandType _standType;
     public float currentCreationTime { get; private set; }
     public float currentPrice{ get; private set; }
+    public float currentUpgradePrice{ get; private set; }
+    public int currentLevel{ get; private set; }
 
-    public Transform upgradeUi;
-    
+    [SerializeField] private StandUpgrade upgradeUi;
+
+
+    private void Awake()
+    {
+        currentLevel = 1;
+        currentUpgradePrice = baseUpgradePrice;
+        SetUpgradeUI(false);
+        //6  7  8  9 10 11 12 13 14 x 31 34 37 40 43 46 50
+        //9 10 12 14 17 21 25 30 35 x 42 51 61 73 87 104 125
+        //+1  +2 +2 +3 +4 +4 +5 +5  +7 +9 +10+12+14+17+21
+    }
 
     public void UpdateValues()
     {
@@ -32,6 +45,8 @@ public class Stand : MonoBehaviour
         var price= UpgradeSystem.Instance.GetValue(GeneralUpgradeType.AllMultiplier, 1);
         price*= UpgradeSystem.Instance.GetValue(UpgradeType.StandMultiplier, _standType, 1);
         currentPrice = basePrice * price;
+
+        upgradeUi.SetStandUpgrade(currentLevel, (int)price, time, (int)currentUpgradePrice, name);
         // Debug.LogError("Price is:" + currentPrice);
     }
     public Product Made()
@@ -44,6 +59,12 @@ public class Stand : MonoBehaviour
         return tempProduct;
     }
 
+    public void LevelUp()
+    {
+        currentUpgradePrice += baseUpgradePrice + currentUpgradePrice / 5;
+        currentLevel += 1;
+        upgradeUi.SetStandUpgrade(currentLevel, (int)currentPrice, currentCreationTime, (int)currentUpgradePrice, name);
+    }
     public void SetUpgradeUI(bool isActive)
     {
         upgradeUi.gameObject.SetActive(isActive);
