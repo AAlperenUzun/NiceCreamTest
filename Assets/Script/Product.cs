@@ -15,7 +15,7 @@ public class Product : MonoBehaviour
     {
         productName = name;
         currentPrice = price;
-        priceT.text = ""+currentPrice;
+        priceT.text = NumberFormatter.FormatNumber(currentPrice);
         priceT.transform.parent.gameObject.SetActive(true);
     }
 

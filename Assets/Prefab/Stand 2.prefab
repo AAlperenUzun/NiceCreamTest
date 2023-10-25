@@ -7,10 +7,40 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4389179351167478694, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4389179351167478694, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4389179351167478694, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4389179351167478694, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4449053368395025673, guid: 63e5145bfd6307446816f75988ee47ed,
         type: 3}
       propertyPath: productName
       value: SecondStand
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778052119521100837, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5213699051033930044, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: basePrice
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5213699051033930044, guid: 63e5145bfd6307446816f75988ee47ed,
         type: 3}
@@ -18,6 +48,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8256931853982395139, guid: 8c628102841d23c4484dead24457c65d,
         type: 3}
+    - target: {fileID: 5213699051033930044, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: baseCreationTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5213699051033930044, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: baseUpgradePrice
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 5551055095838413174, guid: 63e5145bfd6307446816f75988ee47ed,
         type: 3}
       propertyPath: m_RootOrder
@@ -77,6 +117,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stand 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817620869116884712, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603198367240484692, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603198367240484692, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603198367240484692, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6603198367240484692, guid: 63e5145bfd6307446816f75988ee47ed,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 63e5145bfd6307446816f75988ee47ed, type: 3}
